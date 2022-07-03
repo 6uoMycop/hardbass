@@ -6,7 +6,7 @@
 
 ## Front view
 
-Red and black wires connected to motor
+Red and black wires are connected to the motor
 
 ![Front](https://github.com/6uoMycop/hardbass/blob/main/misc/front.jpg)
 
