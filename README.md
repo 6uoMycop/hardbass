@@ -6,6 +6,8 @@
 
 ## Front view
 
+Red and black wires connected to motor
+
 ![Front](https://github.com/6uoMycop/hardbass/blob/main/misc/front.jpg)
 
 # Back view
