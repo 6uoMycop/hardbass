@@ -48,10 +48,9 @@ void loop()
      * Read input, fit in 8 bits and erase less significant bit for noise reduction.
      * Also set down to zero
      */
-    v = ((analogRead(PORT_IN) >> 3) << 1);
+    v = ((analogRead(PORT_IN) >> 3) << 1) - ZERO_VAL;
     /** Invert negative part of wave */
     v = (v < 0) ? (-v) : (v);
-    v = (v < ZERO_VAL) ? 0 : (v - ZERO_VAL);
     /** Remember if max */
     local_max = (v > local_max) ? v : local_max;
   }
