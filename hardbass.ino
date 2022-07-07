@@ -14,6 +14,8 @@
 #define PORT_OUT 9
 /** Number of measurements for local_max calculation */
 #define N 70
+/** Idle zero value. Power-related */
+#define ZERO_VAL 96
 
 #ifdef DEBUG
 /** Serial port baudrate (debug) */
@@ -21,7 +23,7 @@
 #endif
 
 /** Buffer variable for incoming data. Note: signed */
-int8_t v;
+int16_t v;
 /**
  * Maximum value among N measurements used as output. 
  * Must be casted to uint8_t and be in valid range
@@ -46,15 +48,16 @@ void loop()
      * Read input, fit in 8 bits and erase less significant bit for noise reduction.
      * Also set down to zero
      */
-    v = ((analogRead(PORT_IN) >> 3) << 1) - 88;
+    v = ((analogRead(PORT_IN) >> 3) << 1);
     /** Invert negative part of wave */
     v = (v < 0) ? (-v) : (v);
+    v = (v < ZERO_VAL) ? 0 : (v - ZERO_VAL);
     /** Remember if max */
     local_max = (v > local_max) ? v : local_max;
   }
 
   /** Multiply by 8 */
-  local_max <<= 3;
+  local_max <<= 2;
   /** Check overrange */
   if(local_max > 0xFF)
   {
@@ -64,7 +67,7 @@ void loop()
   /** Write to PWM port */
   analogWrite(PORT_OUT, (uint8_t)local_max);
 
-#ifdef DEBUG
+A#ifdef DEBUG
   /** Print value to serial */
   Serial.print((uint8_t)local_max);
   Serial.print("\n");
